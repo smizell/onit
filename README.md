@@ -87,7 +87,7 @@ onit log
 or
 
 ```shell
-onit o
+onit l
 ```
 
 ## License
