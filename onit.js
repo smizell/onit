@@ -56,7 +56,7 @@ program.parse(process.argv);
 // Command for creating directories and config file
 function initCommand() {
   // Create directories if they aren't there (make sure onitDir is first)
-  [onitDir, dayDir].forEach(function(dir) {
+  [onitDir, dayDir, archiveDir].forEach(function(dir) {
     if (!fs.existsSync(dir)) {
       console.log('Making directory:', dir);
       fs.mkdirSync(dir)
