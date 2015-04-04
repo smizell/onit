@@ -78,7 +78,7 @@ onit o 2015-04-04
 
 ### Print a Log of Today and Yesterday
 
-To print what you did yesterday and what you're doing today, ask Onit to print a log.
+To print what you did yesterday and what you're doing today, ask Onit to print a log. It will also copy the log to your clipboard.
 
 ```shell
 onit log
