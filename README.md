@@ -89,3 +89,7 @@ or
 ```shell
 onit o
 ```
+
+## License
+
+Licensed under MIT license. See [LICENSE](./License) file.
