@@ -92,4 +92,4 @@ onit o
 
 ## License
 
-Licensed under MIT license. See [LICENSE](./License) file.
+Licensed under MIT license. See [LICENSE](./LICENSE) file.
