@@ -1,6 +1,6 @@
 {
   "name": "onit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Build daily whatever files in Markdown",
   "main": "onit.js",
   "author": "Stephen Mizell",
@@ -13,14 +13,15 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^2.7.1",
+    "copy-paste": "^1.0.2",
     "lodash": "^3.6.0",
     "moment": "^2.9.0",
     "nconf": "^0.7.1",
     "open": "0.0.5"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/smizell/onit.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smizell/onit.git"
   },
   "preferGlobal": true,
   "bin": {

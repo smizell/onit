@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var _ = require('lodash');
+var copyPaste = require('copy-paste');
 var fs = require('fs');
 var moment = require('moment');
 var nconf = require('nconf');
@@ -134,6 +135,7 @@ function openDay(day) {
 
 // Get your log for yesterday and today together (today is printed first)
 function getLog() {
+  var log = '';
   var todayFilePath = path.join(dayDir, nconf.get('today'));
   var yesterdayFilePath = path.join(dayDir, nconf.get('yesterday'));
 
@@ -142,11 +144,16 @@ function getLog() {
 
     if (fs.existsSync(yesterdayFilePath)) {
       var yesterdayContent = fs.readFileSync(yesterdayFilePath, 'utf8');
-      console.log(todayContent, '\n', yesterdayContent);
+      log = todayContent + '\n' + yesterdayContent;
     } else {
-      console.log(todayContent);
+      log = todayContent;
     }
+  } else {
+    return console.error('Today file not found:', todayFilePath);
   }
+
+  copyPaste.copy(log);
+  console.log(log);
 }
 
 // Utility function for saving configuration file
