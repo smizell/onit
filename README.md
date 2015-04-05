@@ -92,6 +92,34 @@ or
 onit l
 ```
 
+### Create Gist from Today
+
+Onit can create a Gist from today's file.
+
+```shell
+onit gist
+```
+
+or
+
+```shell
+onit g
+```
+
+### Update Yesterday from Gist
+
+Onit can update yesterday's file from a Gist URL.
+
+```shell
+onit yesterday_gist https://gist.github.com/user/9898ea893bc989
+```
+
+or
+
+```shell
+onit yg https://gist.github.com/user/9898ea893bc989
+```
+
 ## License
 
 Licensed under MIT license. See [LICENSE](./LICENSE) file.
