@@ -17,6 +17,7 @@
     "lodash": "^3.6.0",
     "moment": "^2.9.0",
     "nconf": "^0.7.1",
+    "octonode": "^0.6.16",
     "open": "0.0.5"
   },
   "repository": {

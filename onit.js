@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var copyPaste = require('copy-paste');
 var fs = require('fs');
+var github = require('octonode');
 var moment = require('moment');
 var nconf = require('nconf');
 var open = require('open');
@@ -61,6 +62,18 @@ program
   .alias('l')
   .description('Log yesterday and today')
   .action(getLog);
+
+program
+  .command('gist')
+  .alias('g')
+  .description('Create Gist of file for today')
+  .action(createGist);
+
+program
+  .command('yesterday_gist [url]')
+  .alias('yg')
+  .description('Set yesterday file as Gist content')
+  .action(yesterdayGist);
 
 program.parse(process.argv);
 
@@ -176,6 +189,72 @@ function getLog() {
 
   copyPaste.copy(log);
   console.log(log);
+}
+
+function createGist() {
+  var client;
+  var gistData;
+  var ghgist;
+
+  var todayFilePath = path.join(dayDir, nconf.get('today'));
+
+  if (!fs.existsSync(todayFilePath)) {
+    return console.log('Cannot create Gist - file does not exist', todayFilePath);
+  }
+
+  gistData = fs.readFileSync(todayFilePath, 'utf8');
+
+  if (gistData) {
+    client = github.client(nconf.get('githubToken'));
+    ghgist = client.gist();
+
+    files = {};
+    files[nconf.get('today')] = {
+      content: gistData
+    };
+
+    ghgist.create({ files: files }, function(err, payload) {
+      if (err) {
+        return console.error('Could not create Gist');
+      }
+
+      console.log('Gist created at ' + payload.html_url);
+      console.log('URL copied to clipboard')
+      copyPaste.copy(payload.html_url);
+      open(payload.html_url);
+    });
+  }
+}
+
+function yesterdayGist(url) {
+  var content;
+  var id;
+  var yesterdayFilePath;
+
+  if (!url) {
+    return console.error('Must enter URL of Gist');
+  }
+
+  yesterdayFilePath = path.join(dayDir, nconf.get('yesterday'));
+
+  id = _.last(url.split('/'));
+
+  client = github.client(nconf.get('githubToken'));
+  ghgist = client.gist();
+
+  ghgist.get(id, function(err, payload) {
+    if (err) {
+      return console.error('Error getting Gist', err);
+    }
+
+    // Get the content of the first file
+    content = _.first(_.map(payload.files, function(file) {
+      return file.content;
+    }));
+
+    fs.writeFileSync(yesterdayFilePath, content);
+    console.log('File from Gist writtent to yesterday file');
+  });
 }
 
 // Utility function for saving configuration file
