@@ -20,7 +20,7 @@ To create the needed directories, initialize Onit.
 onit init
 ```
 
-This will create an `onit` folder in your home directory.
+This will create an `onit` folder in your home directory. There you will find all of the daily files along with the `config.json`, where some defaults may be changed.
 
 ### New Day
 
@@ -37,6 +37,8 @@ onit n
 ```
 
 This creates a new file and stores the previous `today` file to `yesterday`. Today is tomorrow's yesterday.
+
+If you want to overwrite an existing file, use the `-o, --overwrite` flag, or if you want to create an empty file, use `-e, --empty`.
 
 ### Open Today's File
 

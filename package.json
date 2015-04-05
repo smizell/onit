@@ -1,6 +1,6 @@
 {
   "name": "onit",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Build daily whatever files in Markdown",
   "main": "onit.js",
   "author": "Stephen Mizell",

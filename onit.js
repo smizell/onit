@@ -23,33 +23,43 @@ nconf.file({ file: configFile });
 // Set up commands for onit
 var program = require('commander');
 
+program.version(pkg.version);
+
 program
   .command('init')
+  .description('Initialize Onit directory')
   .action(initCommand);
 
 program
   .command('new')
   .alias('n')
+  .description('Create file for new day')
+  .option('-e, --empty [empty]', 'Create empty file', false)
+  .option('-o, --overwrite [overwrite]', 'Overwrite if file exists', false)
   .action(newDay);
 
 program
   .command('today')
   .alias('t')
+  .description('Open file for today if it exists')
   .action(getToday);
 
 program
   .command('yesterday')
   .alias('y')
+  .description('Open file for yesterday if it exists')
   .action(getYesterday);
 
 program
   .command('open [day]')
   .alias('o')
+  .description('Open file for a given date')
   .action(openDay);
 
 program
   .command('log')
   .alias('l')
+  .description('Log yesterday and today')
   .action(getLog);
 
 program.parse(process.argv);
@@ -64,7 +74,9 @@ function initCommand() {
     } else {
       console.log('Onit dir found:', dir);
     }
-  })
+  });
+
+  nconf.set('fileHeader', 'dddd MMM.DD.YYYY')
 
   console.log('Saving configurations');
   saveConf(function() {
@@ -73,28 +85,38 @@ function initCommand() {
 }
 
 // Command for creating a new day file
-function newDay() {
+function newDay(options) {
+  var data;
+  var fileExists;
+
   // Make up filename
   newDayFileName = moment().format('YYYY-MM-DD') + '.md';
   newDayFilePath = path.join(dayDir, newDayFileName);
 
   // Create the file if it's not there
-  if (fs.existsSync(newDayFilePath)) {
-    var message = 'File already exists';
+  fileExists = fs.existsSync(newDayFilePath);
+
+  if (!options.overwrite && fileExists) {
+    return console.log('File already exists', newDayFileName);
   } else {
-    fs.closeSync(fs.openSync(newDayFilePath, 'w'));
-    var message = 'New file created';
+    // Allow the user to create an empty file
+    data = options.empty ? '' : '# ' + moment().format(nconf.get('fileHeader')) + '\n\n';
 
-    // Set yesterday as today
-    nconf.set('yesterday', nconf.get('today'));
+    fs.writeFileSync(newDayFilePath, data);
 
-    // Set today as newDay
-    nconf.set('today', newDayFileName);
+    // Make today into yesterday
+    if ((!options.overwrite && fileExists) || !fileExists)  {
+      // Set yesterday as today
+      nconf.set('yesterday', nconf.get('today'));
+
+      // Set today as newDay
+      nconf.set('today', newDayFileName);
+    }
+
+    saveConf(function() {
+      console.log('New file created', newDayFileName);
+    })
   }
-
-  saveConf(function() {
-    console.log(message, newDayFileName);
-  })
 
   // Open new file in editor
   open(newDayFilePath);
