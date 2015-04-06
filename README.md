@@ -92,7 +92,13 @@ or
 onit l
 ```
 
-### Create Gist from Today
+### GitHub Fun
+
+Onit can interact with GitHub and create and copy Gists. Currently, to do this, you'll need to manually visit GitHub, go to the Settings for your accoutn, go to Applications, and generate a token for Onit. Then open up `onit/config.json` and add a `githubToken` property with the value being the token you just created.
+
+**Note**: This section will likely change before being stable.
+
+#### Create Gist from Today
 
 Onit can create a Gist from today's file.
 
@@ -106,7 +112,7 @@ or
 onit g
 ```
 
-### Update Yesterday from Gist
+#### Update Yesterday from Gist
 
 Onit can update yesterday's file from a Gist URL.
 
