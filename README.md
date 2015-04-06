@@ -1,6 +1,6 @@
 # Onit
 
-Build daily whatever files in Markdown.
+Build daily whatever files in Markdown. It allows you to create a Markdown file for today, quickly open that file for updating, and moving that file to "yesterday" when a new day is created. These files can be used as a diary, daily todo list, or anything chronological.
 
 ## Install
 
@@ -38,7 +38,7 @@ onit n
 
 This creates a new file and stores the previous `today` file to `yesterday`. Today is tomorrow's yesterday.
 
-If you want to overwrite an existing file, use the `-o, --overwrite` flag, or if you want to create an empty file, use `-e, --empty`.
+If you want to overwrite an existing file, use the `-o, --overwrite` flag, or if you want to create an empty file, use `-e, --empty`. The reason for the empty flag is that by default Onit adds a header with the day's date. 
 
 ### Open Today's File
 
