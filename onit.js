@@ -172,12 +172,16 @@ function openDay(day) {
 function getLog() {
   var log = '';
   var todayFilePath = path.join(dayDir, nconf.get('today'));
-  var yesterdayFilePath = path.join(dayDir, nconf.get('yesterday'));
+  var yesterdayFilePath;
+
+  if (nconf.get('yesterday')) {
+    yesterdayFilePath = path.join(dayDir, nconf.get('yesterday'));
+  }
 
   if (fs.existsSync(todayFilePath)) {
     var todayContent = fs.readFileSync(todayFilePath, 'utf8');
 
-    if (fs.existsSync(yesterdayFilePath)) {
+    if (yesterdayFilePath && fs.existsSync(yesterdayFilePath)) {
       var yesterdayContent = fs.readFileSync(yesterdayFilePath, 'utf8');
       log = todayContent + '\n' + yesterdayContent;
     } else {
