@@ -38,7 +38,7 @@ onit n
 
 This creates a new file and stores the previous `today` file to `yesterday`. Today is tomorrow's yesterday.
 
-If you want to overwrite an existing file, use the `-o, --overwrite` flag, or if you want to create an empty file, use `-e, --empty`. The reason for the empty flag is that by default Onit adds a header with the day's date. 
+If you want to overwrite an existing file, use the `-o, --overwrite` flag, or if you want to create an empty file, use `-e, --empty`. The reason for the empty flag is that by default Onit adds a header with the day's date.
 
 ### Open Today's File
 
@@ -91,6 +91,30 @@ or
 ```shell
 onit l
 ```
+
+### Notes
+
+Onit can create notes. They are stored in the `onit/notes` folder.
+
+```shell
+onit note Thoughts
+```
+
+or
+
+```shell
+onit note "More Thoughts"
+```
+
+If a file exists with that title, it will be opened up for editing. Otherwise it is created.
+
+If you want to prepend the file name with a date, use the `-d, --date` flag.
+
+```shell
+onit note "Thoughts for Today" -d
+```
+
+This creates a file named `onit/notes/2015-04-08-Thoughts-for-Today.md`.
 
 ### GitHub Fun
 

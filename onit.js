@@ -9,6 +9,7 @@ var nconf = require('nconf');
 var open = require('open');
 var path = require('path');
 var pkg = require( path.join(__dirname, 'package.json') );
+var slug = require('slug');
 
 // Default Settings
 var onitDir = path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, 'onit');
@@ -17,6 +18,7 @@ var configFile = path.join(onitDir, 'config.json');
 // Default directories
 var dayDir = path.join(onitDir, 'days');
 var archiveDir = path.join(onitDir, 'archive'); // TODO: implement archiving
+var noteDir = path.join(onitDir, 'notes');
 
 // Load the configuration file (will be created if doesn't exist)
 nconf.file({ file: configFile });
@@ -75,12 +77,18 @@ program
   .description('Set yesterday file as Gist content')
   .action(yesterdayGist);
 
+program
+  .command('note [title]')
+  .option('-d, --date [date]', 'Prepend with date', false)
+  .description('Create a note optionally timestamped with current date')
+  .action(createNote);
+
 program.parse(process.argv);
 
 // Command for creating directories and config file
 function initCommand() {
   // Create directories if they aren't there (make sure onitDir is first)
-  [onitDir, dayDir, archiveDir].forEach(function(dir) {
+  [onitDir, dayDir, noteDir, archiveDir].forEach(function(dir) {
     if (!fs.existsSync(dir)) {
       console.log('Making directory:', dir);
       fs.mkdirSync(dir)
@@ -89,7 +97,9 @@ function initCommand() {
     }
   });
 
-  nconf.set('fileHeader', 'dddd MMM.DD.YYYY')
+  if (!nconf.get('fileHeader')) {
+    nconf.set('fileHeader', 'dddd MMM.DD.YYYY');
+  }
 
   console.log('Saving configurations');
   saveConf(function() {
@@ -259,6 +269,35 @@ function yesterdayGist(url) {
     fs.writeFileSync(yesterdayFilePath, content);
     console.log('File from Gist writtent to yesterday file');
   });
+}
+
+function createNote(title, options) {
+  var content;
+  var noteFileName;
+  var noteFilePath;
+  var slugTitle;
+
+  if (!title) {
+    return console.error('Must provide a title');
+  }
+
+  slugTitle = slug(title);
+
+  // Date option allows for time stamping a note file
+  if (options.date) {
+    noteFileName = moment().format('YYYY-MM-DD') + '-' + slugTitle + '.md';
+  } else {
+    noteFileName = slugTitle + '.md';
+  }
+
+  noteFilePath = path.join(noteDir, noteFileName);
+
+  if (!fs.existsSync(noteFilePath)) {
+    content = '# ' + title + '\n\n';
+    fs.writeFileSync(noteFilePath, content);
+  }
+
+  open(noteFilePath);
 }
 
 // Utility function for saving configuration file
