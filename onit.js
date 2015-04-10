@@ -83,6 +83,12 @@ program
   .description('Create a note optionally timestamped with current date')
   .action(createNote);
 
+program
+  .command('folder [folder]')
+  .alias('f')
+  .description('Open day or notes folder')
+  .action(openFolder);
+
 program.parse(process.argv);
 
 // Command for creating directories and config file
@@ -298,6 +304,18 @@ function createNote(title, options) {
   }
 
   open(noteFilePath);
+}
+
+function openFolder(folder) {
+  if (folder == 'notes') {
+    return open(noteDir);
+  }
+
+  if (folder == 'day') {
+    return open(dayDir);
+  }
+
+  return console.error('You must provide a valid folder, either notes or days')
 }
 
 // Utility function for saving configuration file

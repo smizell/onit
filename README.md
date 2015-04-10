@@ -6,7 +6,7 @@ Build daily whatever files in Markdown. It allows you to create a Markdown file 
 
 Install Onit globally
 
-```shell
+```bash
 npm install onit -g
 ```
 
@@ -16,7 +16,7 @@ npm install onit -g
 
 To create the needed directories, initialize Onit.
 
-```shell
+```bash
 onit init
 ```
 
@@ -26,13 +26,13 @@ This will create an `onit` folder in your home directory. There you will find al
 
 Start a new day with Onit.
 
-```shell
+```bash
 onit new
 ```
 
 or
 
-```shell
+```bash
 onit n
 ```
 
@@ -42,25 +42,25 @@ If you want to overwrite an existing file, use the `-o, --overwrite` flag, or if
 
 ### Open Today's File
 
-```shell
+```bash
 onit today
 ```
 
 or
 
-```shell
+```bash
 onit t
 ```
 
 ### Open Yesterday's File
 
-```shell
+```bash
 onit yesterday
 ```
 
 or
 
-```shell
+```bash
 onit y
 ```
 
@@ -68,13 +68,13 @@ onit y
 
 To look what you did on a given date, give the date to Onit.
 
-```shell
+```bash
 onit open 2015-04-04
 ```
 
 or
 
-```shell
+```bash
 onit o 2015-04-04
 ```
 
@@ -82,13 +82,13 @@ onit o 2015-04-04
 
 To print what you did yesterday and what you're doing today, ask Onit to print a log. It will also copy the log to your clipboard.
 
-```shell
+```bash
 onit log
 ```
 
 or
 
-```shell
+```bash
 onit l
 ```
 
@@ -96,13 +96,13 @@ onit l
 
 Onit can create notes. They are stored in the `onit/notes` folder.
 
-```shell
+```bash
 onit note Thoughts
 ```
 
 or
 
-```shell
+```bash
 onit note "More Thoughts"
 ```
 
@@ -110,11 +110,25 @@ If a file exists with that title, it will be opened up for editing. Otherwise it
 
 If you want to prepend the file name with a date, use the `-d, --date` flag.
 
-```shell
+```bash
 onit note "Thoughts for Today" -d
 ```
 
 This creates a file named `onit/notes/2015-04-08-Thoughts-for-Today.md`.
+
+### Open Folders
+
+Onit can open Onit-specific folders for you. You can either open the `notes` or `day` directory.
+
+```bash
+onit folder notes
+```
+
+or
+
+```
+onit f notes
+```
 
 ### GitHub Fun
 
@@ -126,13 +140,13 @@ Onit can interact with GitHub and create and copy Gists. Currently, to do this, 
 
 Onit can create a Gist from today's file.
 
-```shell
+```bash
 onit gist
 ```
 
 or
 
-```shell
+```bash
 onit g
 ```
 
@@ -140,13 +154,13 @@ onit g
 
 Onit can update yesterday's file from a Gist URL.
 
-```shell
+```bash
 onit yesterday_gist https://gist.github.com/user/9898ea893bc989
 ```
 
 or
 
-```shell
+```bash
 onit yg https://gist.github.com/user/9898ea893bc989
 ```
 
