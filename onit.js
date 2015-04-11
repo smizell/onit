@@ -12,7 +12,7 @@ var pkg = require( path.join(__dirname, 'package.json') );
 var slug = require('slug');
 
 // Default Settings
-var onitDir = path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, 'onit');
+var onitDir = path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, 'onit-test');
 var configFile = path.join(onitDir, 'config.json');
 
 // Default directories
@@ -40,6 +40,7 @@ program
   .description('Create file for new day')
   .option('-e, --empty [empty]', 'Create empty file', false)
   .option('-o, --overwrite [overwrite]', 'Overwrite if file exists', false)
+  .option('-c, --copy [copy]', 'Copy in contents of yesterday', false)
   .action(newDay);
 
 program
@@ -103,14 +104,14 @@ function initCommand() {
   }
 
   console.log('Saving configurations');
-  saveConf(function() {
+  saveConf(function () {
     console.log('Onit initialized!');
   });
 }
 
 // Command for creating a new day file
 function newDay(options) {
-  var data;
+  var content;
   var fileExists;
 
   // Make up filename
@@ -124,9 +125,14 @@ function newDay(options) {
     return console.log('File already exists', newDayFileName);
   } else {
     // Allow the user to create an empty file
-    data = options.empty ? '' : '# ' + moment().format(nconf.get('fileHeader')) + '\n\n';
+    content = options.empty ? '' : '# ' + moment().format(nconf.get('fileHeader')) + '\n\n';
 
-    fs.writeFileSync(newDayFilePath, data);
+    // If the user used the copy flag, copy the contents of yesterday (which is currently today)
+    if (options.copy) {
+      content += fs.readFileSync(path.join(dayDir, nconf.get('today'))) + '\n';
+    }
+
+    fs.writeFileSync(newDayFilePath, content);
 
     // Make today into yesterday
     if ((!options.overwrite && fileExists) || !fileExists)  {
@@ -137,7 +143,7 @@ function newDay(options) {
       nconf.set('today', newDayFileName);
     }
 
-    saveConf(function() {
+    saveConf(function () {
       console.log('New file created', newDayFileName);
     })
   }
@@ -236,6 +242,11 @@ function createNote(title, options) {
 }
 
 function openFolder(folder) {
+  // Allow for opening the root folder if no folder is given
+  if (!folder) {
+    return open(onitDir);
+  }
+
   var folders = {
     'notes': noteDir,
     'day': dayDir,
