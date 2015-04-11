@@ -16,7 +16,7 @@ Let's start our first day.
 onit new
 ```
 
-This create a file in the `days` folder in the Onit directory with today's date as the filename. It adds a heading to file (unless I don't want that) and saves the file. It then opens this file in the editor in which I've associated Markdown. Let's add my tasks for the day to end up with a file that looks something like this.
+This create a file in the `days` folder in the Onit directory with today's date as the filename. It adds a heading to the file (unless I don't want that) and saves the file. It then opens this file in the editor in which I've associated Markdown. Let's add my tasks for the day to end up with a file that looks something like this.
 
 ```markdown
 # Thursday Apr.09.2015
@@ -26,9 +26,9 @@ This create a file in the `days` folder in the Onit directory with today's date 
 - [ ] Plan my trip
 ```
 
-Throughout the day, I can view and update my log by typing `onit today` or `onit t` in my command line. Let's say I finally get to start my task for planning a trip and I'd like to write down some notes for that. I can run a command like such `onit note "Upcoming Trip"`, which would create a file in my `notes` directory. I can type that command any time I'd like and open that same file. Interestingly, this would allow me to have a "Someday" file.
+Throughout the day, I can view and update my log by typing `onit today` or `onit t` in my command line. Let's say I finally get to start my task for planning a trip and I'd like to write down some notes for that. I can run a command like such `onit note "Upcoming Trip"`, which would create a file in my `notes` directory. I can type that command any time I'd like and open my "Upcoming Trip" file. Interestingly, this would allow me to have a "Someday" file if I wanted that.
 
-We'll say I my file for the day looked something like this.
+We'll say my file at the end of the day looked something like this.
 
 ```markdown
 # Thursday Apr.09.2015
@@ -38,7 +38,7 @@ We'll say I my file for the day looked something like this.
 - [x] Plan my trip
 ```
 
-After a hard day of work, I finally head to bed and get a good night of sleep. I wake up and grab a talk glass of the milk I picked up the day before. I head over to my computer and start the day just like yesterday with `onit new`. This creates a new file for the day, tells Onit that today is today and yesterday was the previous today, and opens my new file. Now I can plan my day.
+With a complete task list, I finally head to bed and get a good night of sleep. I wake up the next day and grab a tall glass of the milk I picked up the day before. I head over to my computer and start the day just like yesterday with `onit new`. This creates a new file for the day, tells Onit that today is today and yesterday was the previous today, and opens my new file. Now I can plan my day to look something like this.
 
 ```markdown
 # Friday Apr.10.2015
