@@ -48,7 +48,7 @@ With a complete task list, I finally head to bed and get a good night of sleep. 
 - [ ] Take a nap
 ```
 
-I'm probably working with others throughout the week, and I may want to let them know what I did yesterday and what I'll be doing today, I can run the `onit log` command anytime and it will print today and yesterday's files to my terminal and copy that to my clipboard. If asked, I can also quickly see what yesterday looked like by typing `onit yesterday`.
+I'm probably working with others throughout the week, and I may want to let them know what I did yesterday and what I'll be doing today. I can run the `onit log` command anytime and it will print today and yesterday's files to my terminal and copy that to my clipboard. If asked, I can also quickly see what yesterday looked like by typing `onit yesterday`.
 
 Maybe after a hard week of days like these I want to see what all I did. For that, you can run `onit last 5` and get the last five daily entries. This is nice for keeping up with how quickly time flies by.
 
