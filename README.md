@@ -174,7 +174,7 @@ This creates a file named `onit/notes/2015-04-08-Thoughts-for-Today.md`.
 
 ### Open Folders
 
-Onit can open Onit-specific folders for you. You can either open the `notes` or `day` directory.
+Onit can open Onit-specific folders for you. If not given a folder, it will open the root `onit` folder. You can open specific folders, too, like `notes`, `day`, `onit`, or `query` directory.
 
 ```bash
 onit folder notes
@@ -182,9 +182,19 @@ onit folder notes
 
 or
 
-```
+```bash
 onit f notes
 ```
+
+### Last
+
+Onit can print out a given number of daily entries with the `last` command.
+
+```bash
+onit last 5
+```
+
+By default, if a number is not given, it will default to `5`. To save the query and open it up in an editor, you may use the `-s, --save` flag.
 
 ## License
 
