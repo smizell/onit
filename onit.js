@@ -19,6 +19,7 @@ var configFile = path.join(onitDir, 'config.json');
 var dayDir = path.join(onitDir, 'days');
 var archiveDir = path.join(onitDir, 'archive'); // TODO: implement archiving
 var noteDir = path.join(onitDir, 'notes');
+var queryDir = path.join(onitDir, 'query');
 
 // Load the configuration file (will be created if doesn't exist)
 nconf.file({ file: configFile });
@@ -77,12 +78,18 @@ program
   .description('Open day or notes folder')
   .action(openFolder);
 
+program
+  .command('last [count]')
+  .option('-s, --save', 'Save to file and open', false)
+  .description('Get the last number of files')
+  .action(lastFiles);
+
 program.parse(process.argv);
 
 // Command for creating directories and config file
 function initCommand() {
   // Create directories if they aren't there (make sure onitDir is first)
-  [onitDir, dayDir, noteDir, archiveDir].forEach(function(dir) {
+  [onitDir, dayDir, noteDir, archiveDir, queryDir].forEach(function(dir) {
     if (!fs.existsSync(dir)) {
       console.log('Making directory:', dir);
       fs.mkdirSync(dir)
@@ -229,24 +236,44 @@ function createNote(title, options) {
 }
 
 function openFolder(folder) {
-  if (folder == 'notes') {
-    return open(noteDir);
+  var folders = {
+    'notes': noteDir,
+    'day': dayDir,
+    'onit': onitDir,
+    'query': queryDir
   }
 
-  if (folder == 'day') {
-    return open(dayDir);
+  if (folders[folder]) {
+    return open(folders[folder]);
   }
 
-  if (folder == 'onit') {
-    return open(onitDir);
-  }
+  return console.error('You must provide a valid folder, either notes, days, onit, or query')
+}
 
-  return console.error('You must provide a valid folder, either notes or days')
+function lastFiles(givenCount, options) {
+  var content = '';
+  var count = parseInt(givenCount) || 5;
+  var files = fs.readdirSync(dayDir).reverse();
+  var fileName;
+  var filePath;
+
+  files.slice(0, count).forEach(function (file) {
+    content += fs.readFileSync(path.join(dayDir, file), 'utf8') + '\n';
+  });
+
+  if (options.save) {
+    fileName = moment().format('YYYY-MM-DD') + '-' + 'last-' +count + '.md';
+    filePath = path.join(queryDir, fileName)
+    fs.writeFileSync(filePath, content);
+    open(filePath);
+  } else {
+    console.log(content);
+  }
 }
 
 // Utility function for saving configuration file
 function saveConf(cb) {
-  nconf.save(function(err) {
+  nconf.save(function (err) {
     if (err) {
       console.error('Error saving or creating conf file', err);
     }
