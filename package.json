@@ -1,6 +1,6 @@
 {
   "name": "onit",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Build daily whatever files in Markdown",
   "main": "onit.js",
   "author": "Stephen Mizell",
@@ -8,7 +8,10 @@
   "keywords": [
     "todo",
     "doing",
-    "log"
+    "log",
+    "markdown",
+    "GTD",
+    "diary"
   ],
   "license": "MIT",
   "dependencies": {
