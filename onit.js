@@ -12,7 +12,7 @@ var pkg = require( path.join(__dirname, 'package.json') );
 var slug = require('slug');
 
 // Default Settings
-var onitDir = path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, 'onit-test');
+var onitDir = path.join(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, 'onit');
 var configFile = path.join(onitDir, 'config.json');
 
 // Default directories
