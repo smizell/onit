@@ -41,7 +41,7 @@ program
   .option('-e, --empty [empty]', 'Create empty file', false)
   .option('-o, --overwrite [overwrite]', 'Overwrite if file exists', false)
   .option('-c, --copy [copy]', 'Copy in contents of yesterday', false)
-  .option('-d, --date [date]', 'Give a date, useful if you missed a day')
+  .option('-d, --date [date]', 'Give a date, useful if you missed a day (YYYY-MM-DD)')
   .action(newDay);
 
 program
@@ -57,9 +57,15 @@ program
   .action(getYesterday);
 
 program
+  .command('plan [date]')
+  .alias('p')
+  .description('Plan for a given date (YYYY-MM-DD)')
+  .action(planForDate);
+
+program
   .command('open [day]')
   .alias('o')
-  .description('Open file for a given date')
+  .description('Open file for a given date (YYYY-MM-DD)')
   .action(openDay);
 
 program
@@ -70,7 +76,7 @@ program
 
 program
   .command('note [title]')
-  .option('-d, --date [date]', 'Prepend with date', false)
+  .option('-d, --date [date]', 'Prepend with date (will use YYYY-MM-DD)', false)
   .description('Create a note optionally timestamped with current date')
   .action(createNote);
 
@@ -124,7 +130,7 @@ function newDay(options) {
   fileExists = fs.existsSync(newDayFilePath);
 
   if (!options.overwrite && fileExists) {
-    return console.log('File already exists', newDayFileName);
+    console.log('File already exists', newDayFileName);
   } else {
     // Allow the user to create an empty file
     content = options.empty ? '' : '# ' + moment(options.date).format(nconf.get('fileHeader')) + '\n\n';
@@ -151,7 +157,7 @@ function newDay(options) {
   }
 
   // Open new file in editor
-  open(newDayFilePath);
+  return open(newDayFilePath);
 }
 
 // Command for opening today file
@@ -176,12 +182,24 @@ function getYesterday() {
   }
 }
 
+function planForDate(day) {
+  var dayFilePath = path.join(dayDir, day + '.md');
+
+  if (!fs.existsSync(dayFilePath)) {
+    console.log('Creating file for day:', day);
+    var content = '# ' + moment(day).format(nconf.get('fileHeader')) + '\n\n';
+    fs.writeFileSync(dayFilePath, content);
+  }
+
+  return open(dayFilePath);
+}
+
 // Command for opening a specific day
 function openDay(day) {
   var dayFilePath = path.join(dayDir, day + '.md');
 
   if (fs.existsSync(dayFilePath)) {
-    open(dayFilePath);
+    return open(dayFilePath);
   } else {
     console.log('File for day not found:', day);
   }

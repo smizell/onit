@@ -149,6 +149,20 @@ or
 onit l
 ```
 
+### Plan for the Future
+
+You can use Onit to plan ahead as well. If that day file exists, it will open it, otherwise it will create it.
+
+```bash
+onit plan 2015-04-01
+```
+
+or
+
+```bash
+onit p 2015-04-01
+```
+
 ### Notes
 
 Onit can create notes. They are stored in the `onit/notes` folder.
