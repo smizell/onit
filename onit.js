@@ -116,6 +116,14 @@ function initCommand() {
   });
 }
 
+function _setNewDay(dayFileName) {
+  // Set yesterday as previous today
+  nconf.set('yesterday', nconf.get('today'));
+
+  // Set day given as newDay
+  nconf.set('today', dayFileName);
+}
+
 // Command for creating a new day file
 function newDay(options) {
   var content;
@@ -131,6 +139,10 @@ function newDay(options) {
 
   if (!options.overwrite && fileExists) {
     console.log('File already exists', newDayFileName);
+
+    if (newDayFileName !== nconf.get('today')) {
+      _setNewDay(newDayFileName);
+    }
   } else {
     // Allow the user to create an empty file
     content = options.empty ? '' : '# ' + moment(options.date).format(nconf.get('fileHeader')) + '\n\n';
@@ -144,20 +156,14 @@ function newDay(options) {
 
     // Make today into yesterday
     if ((!options.overwrite && fileExists) || !fileExists)  {
-      // Set yesterday as today
-      nconf.set('yesterday', nconf.get('today'));
-
-      // Set today as newDay
-      nconf.set('today', newDayFileName);
+      _setNewDay(newDayFileName);
     }
-
-    saveConf(function () {
-      console.log('New file created', newDayFileName);
-    })
   }
 
-  // Open new file in editor
-  return open(newDayFilePath);
+  saveConf(function () {
+    console.log('New file created', newDayFileName);
+    return open(newDayFilePath);
+  });
 }
 
 // Command for opening today file
