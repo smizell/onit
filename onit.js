@@ -41,6 +41,7 @@ program
   .option('-e, --empty [empty]', 'Create empty file', false)
   .option('-o, --overwrite [overwrite]', 'Overwrite if file exists', false)
   .option('-c, --copy [copy]', 'Copy in contents of yesterday', false)
+  .option('-d, --date [date]', 'Give a date, useful if you missed a day')
   .action(newDay);
 
 program
@@ -112,10 +113,11 @@ function initCommand() {
 // Command for creating a new day file
 function newDay(options) {
   var content;
+  var todayDate;
   var fileExists;
 
   // Make up filename
-  newDayFileName = moment().format('YYYY-MM-DD') + '.md';
+  newDayFileName = moment(options.date).format('YYYY-MM-DD') + '.md';
   newDayFilePath = path.join(dayDir, newDayFileName);
 
   // Create the file if it's not there
@@ -125,7 +127,7 @@ function newDay(options) {
     return console.log('File already exists', newDayFileName);
   } else {
     // Allow the user to create an empty file
-    content = options.empty ? '' : '# ' + moment().format(nconf.get('fileHeader')) + '\n\n';
+    content = options.empty ? '' : '# ' + moment(options.date).format(nconf.get('fileHeader')) + '\n\n';
 
     // If the user used the copy flag, copy the contents of yesterday (which is currently today)
     if (options.copy) {

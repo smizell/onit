@@ -95,6 +95,7 @@ This creates a new file and stores the previous `today` file to `yesterday`. Tod
 * To overwrite an existing file, use the `-o, --overwrite` flag
 * To create an empty file, use `-e, --empty` (Onit adds a header with the day's date by default)
 * To copy yesterday's content, use the `-c, --copy` flag
+* To set the date for today, use `-d, --date` with a date in the format of `YYYY-MM-DD`. Useful if you missed a day.
 
 ### Open Today's File
 
