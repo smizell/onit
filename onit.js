@@ -3,7 +3,6 @@
 var _ = require('lodash');
 var copyPaste = require('copy-paste');
 var fs = require('fs');
-var github = require('octonode');
 var moment = require('moment');
 var nconf = require('nconf');
 var open = require('open');
