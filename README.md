@@ -35,10 +35,12 @@ We'll say my file at the end of the day looked something like this.
 
 - [x] Go for a walk
 - [x] Pickup milk
-- [x] Plan my trip
+- [ ] Plan my trip
 ```
 
-With a complete task list, I finally head to bed and get a good night of sleep. I wake up the next day and grab a tall glass of the milk I picked up the day before. I head over to my computer and start the day just like yesterday with `onit new`. This creates a new file for the day, tells Onit that today is today and yesterday was the previous today, and opens my new file. Now I can plan my day to look something like this.
+With a mostly-complete task list, I finally head to bed and get a good night of sleep. I wake up the next day and grab a tall glass of the milk I picked up the day before. I head over to my computer and start the day with `onit prep`. This opens the file for the previous day (though still considered by Onit to be `today`—I know, confusing) and allows you to check off anything missed.
+
+I then run `onit new`. This creates a new file for the day, tells Onit that today is today and yesterday was the previous today, and opens my new file. I could use `onit n -i` to copy over incomplete tasks from the day before, but I won't go to far into that now. Once done, I can now plan my current day to look something like this.
 
 ```markdown
 # Friday Apr.10.2015
@@ -96,6 +98,7 @@ This creates a new file and stores the previous `today` file to `yesterday`. Tod
 * To create an empty file, use `-e, --empty` (Onit adds a header with the day's date by default)
 * To copy yesterday's content, use the `-c, --copy` flag
 * To set the date for today, use `-d, --date` with a date in the format of `YYYY-MM-DD`. Useful if you missed a day.
+* To copy over incomplete tasks, use the `-i, --incomplete` flag. Only works with [GitHub Markdown task list syntax](https://help.github.com/articles/writing-on-github/#task-lists)
 
 ### Open Today's File
 
@@ -119,6 +122,14 @@ or
 
 ```bash
 onit y
+```
+
+### Prepare by Opening the Day You Just Finished
+
+It feels strange to finish a day, start a new one, and have to use `onit today` to close out yesterday. That was even a hard sentence to write. This command is mostly an alias for `onit today`, but makes more sense in its context.
+
+```bash
+onit prep
 ```
 
 ### Open File for Given Date
@@ -155,12 +166,6 @@ You can use Onit to plan ahead as well. If that day file exists, it will open it
 
 ```bash
 onit plan 2015-04-01
-```
-
-or
-
-```bash
-onit p 2015-04-01
 ```
 
 ### Notes

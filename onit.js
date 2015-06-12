@@ -41,12 +41,18 @@ program
   .option('-o, --overwrite [overwrite]', 'Overwrite if file exists', false)
   .option('-c, --copy [copy]', 'Copy in contents of yesterday', false)
   .option('-d, --date [date]', 'Give a date, useful if you missed a day (YYYY-MM-DD)')
+  .option('-i, --incomplete', 'Copy over incomplete tasks')
   .action(newDay);
 
 program
   .command('today')
   .alias('t')
   .description('Open file for today if it exists')
+  .action(getToday);
+
+program
+  .command('prep')
+  .description('Open the file for the day you just completed')
   .action(getToday);
 
 program
@@ -57,7 +63,6 @@ program
 
 program
   .command('plan [date]')
-  .alias('p')
   .description('Plan for a given date (YYYY-MM-DD)')
   .action(planForDate);
 
@@ -109,6 +114,8 @@ function initCommand() {
     nconf.set('fileHeader', 'dddd MMM.DD.YYYY');
   }
 
+  nconf.set('copyIncomplete', false);
+
   console.log('Saving configurations');
   saveConf(function () {
     console.log('Onit initialized!');
@@ -149,6 +156,19 @@ function newDay(options) {
     // If the user used the copy flag, copy the contents of yesterday (which is currently today)
     if (options.copy) {
       content += fs.readFileSync(path.join(dayDir, nconf.get('today'))) + '\n';
+    } else if (options.incomplete || nconf.get('copyIncomplete') === true) {
+      // Copy over incomplete tasks if any are found in the file
+      var todayFileLines = fs
+        .readFileSync(path.join(dayDir, nconf.get('today')))
+        .toString()
+        .split('\n');
+
+      // Incomplete tasks begin with '- [ ]'
+      todayFileLines.forEach(function(line) {
+        if (_.startsWith(line, '- [ ]')) {
+          content += line + '\n';
+        }
+      });
     }
 
     fs.writeFileSync(newDayFilePath, content);
